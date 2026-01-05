@@ -30,6 +30,7 @@ find "$HOME" -maxdepth 1 -mindepth 1 -printf '%f\n' > "$WORKDIR/4"
 ```
 Делаем исполняемым:<br>
 `chmod +x ~/unit_task.sh`
+
 2. Создайте юнит который будет вызывать этот скрипт при запуске. Проверьте<br>
 Файл юнита `/etc/systemd/system/unit-task.service`:
 ```
@@ -49,6 +50,7 @@ sudo systemctl daemon-reload
 sudo systemctl start unit-task.service
 sudo systemctl status unit-task.service
 ```
+
 3. Создайте таймер который будет вызывать выполнение одноимённого systemd юнита каждые 5 минут.<br>
 Файл таймера `/etc/systemd/system/unit-task.timer`:<br>
 ```
@@ -69,8 +71,10 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now unit-task.timer
 sudo systemctl list-timers unit-task.timer
 ```
+
 4. От какого пользователя вызыаются юниты поумолчанию?<br>
 Для системных юнитов (/etc/systemd/system, /usr/lib/systemd/system) по умолчанию процессы запускаются от пользователя root, если в юните явно не указан User=
+
 5. Создайте пользователя от имени которого будет выполняться ваш скрипт.<br>
 `sudo useradd -m -s /bin/bash unituser`
 Скопировать скрипт этому пользователю:<br>
@@ -79,6 +83,7 @@ sudo cp ~/unit_task.sh /home/unituser/unit_task.sh
 sudo chown unituser:unituser /home/unituser/unit_task.sh
 sudo chmod +x /home/unituser/unit_task.sh
 ```
+
 6. Дополните юнит информацией о пользователе от которого должен выплняться скрипт.
 Обновлённый `/etc/systemd/system/unit-task.service`:
 ```
@@ -101,6 +106,7 @@ sudo systemctl restart unit-task.service
 sudo systemctl status unit-task.service
 ```
 User=unituser указывает, от какого пользователя будет запускаться скрипт; WorkingDirectory= задаёт рабочий каталог.
+
 7. Дополните ваш скрипт так, что бы он независимо от местоположения всега выполнялся в домашней папке того кто его вызывает.
 ```
 cd "$HOME"
