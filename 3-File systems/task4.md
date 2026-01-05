@@ -4,7 +4,7 @@
 RAID (Redundant Array of Independent Disks) — объединение нескольких физических дисков в один логический массив для повышения производительности и/или отказоустойчивости.<br>
 Бывают уровни RAID 0, RAID 1, RAID 5, RAID 6, RAID 10 и другие.
 2. Добавьте в виртуальную машину 2 диска отформатируйте их в ext4<br>
-Добавил ещё 2 диска(sdc, sdd)
+Добавил ещё 2 диска(sdc, sdd)<br>
 ![img_13.png](img_13.png)
 3. Создайте из них raid 0 массив<br>
 `sudo mdadm --create --verbose /dev/md0 --level=0 --raid-devices=2 /dev/sdc /dev/sdd`<br>
@@ -34,6 +34,7 @@ sudo mkfs.ext4 /dev/md0
 sudo mount /dev/md0 /mnt/raid
 ```
 ![img_17.png](img_17.png)
+
 6. В чём между ними разница?
 - RAID 0: данные распределяются по дискам (striping) → быстрее и объём суммируется, но отказ одного диска = потеря данных массива.
 
